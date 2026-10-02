@@ -47,7 +47,6 @@
             font-family: 'Mitr', sans-serif;
         }
 
-        /* Floating background canvas */
         #bgCanvas {
             position: fixed;
             top: 0;
@@ -58,7 +57,6 @@
             z-index: 0;
         }
 
-        /* Glassmorphism card effect */
         .glass-card {
             background: rgba(255, 255, 255, 0.88);
             backdrop-filter: blur(14px);
@@ -67,7 +65,6 @@
             box-shadow: 0 10px 30px rgba(232, 106, 130, 0.08);
         }
 
-        /* Pin input code box glow */
         .pin-box {
             transition: all 0.2s ease;
         }
@@ -77,7 +74,6 @@
             box-shadow: 0 0 12px rgba(232, 106, 130, 0.4);
         }
 
-        /* Shake animation for wrong pin */
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
             20%, 60% { transform: translateX(-10px); }
@@ -87,7 +83,6 @@
             animation: shake 0.4s ease-in-out;
         }
 
-        /* Pulse heart glow */
         @keyframes heartPulse {
             0% { transform: scale(1); }
             50% { transform: scale(1.12); }
@@ -97,7 +92,6 @@
             animation: heartPulse 2s infinite ease-in-out;
         }
 
-        /* Polaroid card hover effect */
         .polaroid {
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
@@ -106,7 +100,6 @@
             box-shadow: 0 15px 35px rgba(232, 106, 130, 0.18);
         }
 
-        /* Runaway button smooth transition */
         #btnNo {
             transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             position: relative;
@@ -115,10 +108,8 @@
 </head>
 <body class="relative min-h-screen flex flex-col justify-between selection:bg-rosepink selection:text-white">
 
-    <!-- Background Canvas for Floating Hearts -->
     <canvas id="bgCanvas"></canvas>
 
-    <!-- Audio Control Panel -->
     <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
         <button id="bgmToggle" onclick="toggleBGM()" class="glass-card p-3 rounded-full text-deeprose hover:scale-105 active:scale-95 transition flex items-center justify-center shadow-md cursor-pointer" title="เปิด/ปิดเพลงบรรเลง">
             <svg id="musicIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -127,9 +118,6 @@
         </button>
     </div>
 
-    <!-- ==================================================== -->
-    <!-- 0. DEVICE SELECTION OVERLAY                          -->
-    <!-- ==================================================== -->
     <div id="deviceSelectScreen" class="fixed inset-0 z-50 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl heart-pulse">
@@ -166,12 +154,8 @@
         </div>
     </div>
 
-    <!-- ==================================================== -->
-    <!-- 1. LOCK SCREEN OVERLAY (PIN: 070826)                 -->
-    <!-- ==================================================== -->
     <div id="lockScreen" class="fixed inset-0 z-40 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700 hidden opacity-0">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
-            <!-- Heart Icon Header -->
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl heart-pulse">
                 🔒❤️
             </div>
@@ -179,7 +163,6 @@
             <h1 class="heading-font text-2xl font-semibold text-gray-800 mb-2">Secret Memory Vault</h1>
             <p class="text-sm text-gray-500 mb-6 font-light">กรอกวันสำคัญของเราเพื่อปลดล็อกหัวใจ (DDMMYY)</p>
 
-            <!-- PIN Input Code Container -->
             <div id="pinContainer" class="flex justify-center gap-2 mb-6">
                 <input type="password" maxlength="1" class="pin-box w-11 h-13 text-center text-xl font-bold bg-white border-2 border-rosepink/50 rounded-xl" inputmode="numeric">
                 <input type="password" maxlength="1" class="pin-box w-11 h-13 text-center text-xl font-bold bg-white border-2 border-rosepink/50 rounded-xl" inputmode="numeric">
@@ -189,32 +172,23 @@
                 <input type="password" maxlength="1" class="pin-box w-11 h-13 text-center text-xl font-bold bg-white border-2 border-rosepink/50 rounded-xl" inputmode="numeric">
             </div>
 
-            <!-- Lock Error / Hint Notification -->
-            <div id="lockMessage" class="min-h-[28px] text-xs font-medium text-deeprose mb-4 transition-all duration-300">
-                <!-- Dynamic text appears here -->
-            </div>
+            <div id="lockMessage" class="min-h-[28px] text-xs font-medium text-deeprose mb-4 transition-all duration-300"></div>
 
             <button onclick="checkPasscode()" class="w-full bg-deeprose hover:bg-rose-600 text-white font-medium py-3 rounded-2xl shadow-lg hover:shadow-rosepink/50 transition duration-300 heading-font active:scale-95 cursor-pointer">
                 ปลดล็อกข้อความลับ ✨
             </button>
 
-            <!-- Hint Button -->
             <button onclick="showHint()" class="mt-4 text-xs text-gray-400 hover:text-deeprose underline transition cursor-pointer">
                 ต้องการคำใบ้ไหมคะ?
             </button>
         </div>
     </div>
 
-
-    <!-- ==================================================== -->
-    <!-- 2. MAIN APPLICATION CONTENT (POST-UNLOCK)            -->
-    <!-- ==================================================== -->
     <main id="mainContent" class="relative z-10 max-w-4xl mx-auto px-4 py-12 hidden opacity-0 transition-opacity duration-1000">
         
-        <!-- HEADER / HERO SECTION -->
         <header class="text-center mb-12">
             <div class="inline-block relative mb-4">
-                <img id="avatarImage" src="11156.jpg" onerror="this.src='https://placehold.co/400x400/FFB6C1/white?text=Cute+Girl'" alt="Couple" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border-4 border-white shadow-xl">
+                <img id="avatarImage" src="./11156.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';" alt="Couple" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border-4 border-white shadow-xl">
                 <span class="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow text-lg">💖</span>
             </div>
             
@@ -226,12 +200,10 @@
             </p>
             
             <div class="mt-4 inline-flex items-center gap-2 bg-rosepink/20 px-4 py-1.5 rounded-full text-xs md:text-sm text-deeprose font-medium">
-                <span>🗓️ วันสำคัญของเรา: 07 สิงหาคม 2026</span>
+                <span>🗓️️ วันสำคัญของเรา: 07 สิงหาคม 2026</span>
             </div>
         </header>
 
-
-        <!-- SECTION 1: TYPEWRITER APOLOGY LETTER -->
         <section class="glass-card rounded-3xl p-6 md:p-10 mb-12 relative overflow-hidden border-t-4 border-deeprose">
             <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
                 <div class="flex items-center gap-2">
@@ -243,17 +215,13 @@
                 </button>
             </div>
 
-            <div id="letterText" class="text-gray-700 leading-relaxed text-base md:text-lg whitespace-pre-line min-h-[220px]">
-                <!-- Typewriter JS will populate text here -->
-            </div>
+            <div id="letterText" class="text-gray-700 leading-relaxed text-base md:text-lg whitespace-pre-line min-h-[220px]"></div>
 
             <div class="mt-6 pt-4 border-t border-gray-100 text-right">
                 <span class="font-handwritten text-xl text-deeprose font-semibold">ด้วยรักและขอโทษจากหัวใจ ❤</span>
             </div>
         </section>
 
-
-        <!-- SECTION 2: MEMORY GALLERY / TIMELINE -->
         <section class="mb-12">
             <div class="text-center mb-8">
                 <h2 class="heading-font text-2xl md:text-3xl font-bold text-gray-800 mb-2">
@@ -266,7 +234,7 @@
                 <!-- Polaroid 1 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="11156.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+1'" alt="Memory 1" class="w-full h-full object-cover">
+                        <img src="./11156.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80';" alt="Memory 1" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">คนน่ารักของเค้า 💖</p>
                     <span class="text-xs text-gray-400">มองกี่ทีก็ตกหลุมรัก</span>
@@ -275,7 +243,7 @@
                 <!-- Polaroid 2 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="10893.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+2'" alt="Memory 2" class="w-full h-full object-cover">
+                        <img src="./10893.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=600&q=80';" alt="Memory 2" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">มุมเผลอน่ารักๆ 😊</p>
                     <span class="text-xs text-gray-400">สดใสน่ารักที่สุดเลย</span>
@@ -284,7 +252,7 @@
                 <!-- Polaroid 3 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="10892.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+3'" alt="Memory 3" class="w-full h-full object-cover">
+                        <img src="./10892.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80';" alt="Memory 3" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">ภาพจำสุดน่ารัก 📸</p>
                     <span class="text-xs text-gray-400">เห็นแล้วยิ้มตามทุกครั้ง</span>
@@ -293,7 +261,7 @@
                 <!-- Polaroid 4 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="10155.png" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+4'" alt="Memory 4" class="w-full h-full object-cover">
+                        <img src="./10155.png" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=600&q=80';" alt="Memory 4" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">สไตล์เท่ๆ ปนน่านัก 🖤</p>
                     <span class="text-xs text-gray-400">ชอบทุกมุมที่เป็นเธอ</span>
@@ -302,7 +270,7 @@
                 <!-- Polaroid 5 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="9463.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+5'" alt="Memory 5" class="w-full h-full object-cover">
+                        <img src="./9463.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=600&q=80';" alt="Memory 5" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">คนเก่งกับตุ๊กตาตัวโปรด 🧸</p>
                     <span class="text-xs text-gray-400">งับความน่ารักเกินร้อย</span>
@@ -311,7 +279,7 @@
                 <!-- Polaroid 6 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="9237.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+6'" alt="Memory 6" class="w-full h-full object-cover">
+                        <img src="./9237.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80';" alt="Memory 6" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">สองนิ้วส่งหัวใจ ✌️💖</p>
                     <span class="text-xs text-gray-400">ขอกอดหน่อยได้มั้ยคะ</span>
@@ -320,7 +288,7 @@
                 <!-- Polaroid 7 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center sm:col-span-2 md:col-span-1">
                     <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
-                        <img src="9152.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+7'" alt="Memory 7" class="w-full h-full object-cover">
+                        <img src="./9152.jpg" onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=600&q=80';" alt="Memory 7" class="w-full h-full object-cover">
                     </div>
                     <p class="font-handwritten text-lg text-gray-700">เจ้าหมูน้อยสุดคิวท์ 🐷</p>
                     <span class="text-xs text-gray-400">สัญญาว่าจะเคียงข้างตลอดไป</span>
@@ -328,8 +296,6 @@
             </div>
         </section>
 
-
-        <!-- SECTION 3: AI SWEET MESSAGE GENERATOR (GEMINI API) -->
         <section class="glass-card rounded-3xl p-6 md:p-8 mb-12 border border-rosepink/30">
             <div class="flex items-center gap-2 mb-4">
                 <span class="text-2xl">✨</span>
@@ -352,14 +318,11 @@
                 </button>
             </div>
 
-            <!-- AI Output Box -->
             <div id="aiMessageBox" class="bg-white/80 p-4 rounded-2xl border border-rosepink/30 text-gray-700 text-sm min-h-[80px] flex items-center justify-center text-center italic">
                 กดเลือกหัวข้อด้านบน เพื่อให้ AI สร้างข้อความอ้อนหวานๆ ให้เธอฟังนะ...
             </div>
         </section>
 
-
-        <!-- SECTION 4: INTERACTIVE FORGIVENESS DECISION -->
         <section class="glass-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-xl border-2 border-rosepink/50">
             <div class="w-20 h-20 bg-rosepink/20 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
                 🥺
@@ -372,14 +335,11 @@
                 เค้ารอคำตอบและโอกาสที่จะได้กลับไปดูแลเธออยู่นะคะ ❤️
             </p>
 
-            <!-- Buttons Grid Container -->
             <div id="buttonArea" class="flex flex-col sm:flex-row items-center justify-center gap-4 min-h-[120px] relative">
-                <!-- YES BUTTON -->
                 <button id="btnYes" onclick="handleForgiveYes()" class="bg-deeprose hover:bg-rose-600 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-lg hover:shadow-rose-400/50 transition-all duration-300 heading-font cursor-pointer z-10 transform active:scale-95">
-                    ให้อภัยนะ ❤️
+                    ให้อภัยนะ ❤️️
                 </button>
 
-                <!-- NO RUNAWAY BUTTON -->
                 <button id="btnNo" onmouseover="runAwayButton()" ontouchstart="runAwayButton()" onclick="runAwayButton()" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium text-base px-6 py-3 rounded-2xl transition-all duration-200 heading-font cursor-pointer z-20">
                     ยังงอนอยู่ 🥺
                 </button>
@@ -388,15 +348,10 @@
 
     </main>
 
-    <!-- FOOTER -->
     <footer class="relative z-10 text-center py-6 text-xs text-gray-400">
         <p>Made with All My Heart for You • Passcode: 070826</p>
     </footer>
 
-
-    <!-- ==================================================== -->
-    <!-- 3. MODALS & POPUPS                                   -->
-    <!-- ==================================================== -->
     <div id="successModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-500">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center bg-white shadow-2xl transform scale-90 transition-transform duration-500 border-2 border-rosepink">
             <div class="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-5xl animate-bounce">
@@ -412,16 +367,11 @@
         </div>
     </div>
 
-    <!-- Custom Toast Notification -->
     <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-gray-800 text-white text-xs md:text-sm px-5 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
         <span id="toastIcon">💡</span>
         <span id="toastMessage">ข้อความแจ้งเตือน</span>
     </div>
 
-
-    <!-- ==================================================== -->
-    <!-- 4. JAVASCRIPT LOGIC                                  -->
-    <!-- ==================================================== -->
     <script>
         const CORRECT_PIN = "070826";
         let noCount = 0;
@@ -450,7 +400,6 @@
             showToast(`ตั้งค่าสำหรับ ${device.toUpperCase()} เรียบร้อยแล้ว`, "📱");
         }
 
-        // Draft Apology Letter Content
         const APOLOGY_LETTER = `ถึงคนเก่งของเค้า...
 
 เค้าอยากใช้พื้นที่ตรงนี้บอกความรู้สึกที่บางทีเค้าอาจจะพูดได้ไม่ดีพอ หรือไม่ได้พูดมันออกไปตรงๆ
@@ -464,7 +413,6 @@
 ขอบคุณสำหรับความรัก ความเข้าใจ และทุกๆ อย่างที่เธอเคยให้เค้ามาตลอดนะ...
 
 ยกโทษให้เค้าสักครั้งนะคนดี ให้โอกาสเค้าได้กลับไปดูแลเธออีกครั้งนะครับ ❤️`;
-
 
         const pinInputs = document.querySelectorAll('.pin-box');
         
@@ -500,7 +448,6 @@
             const lockMsg = document.getElementById('lockMessage');
 
             if (enteredPin === CORRECT_PIN) {
-                // Correct Pin Logic
                 playChimeSound(600, 'sine', 0.15);
                 showToast("ปลดล็อกสำเร็จ! ❤️", "🔓");
                 
@@ -512,15 +459,14 @@
                     setTimeout(() => {
                         mainContent.classList.remove('opacity-0');
                         startTypewriter();
-                        startBGM(); // Start background synthesized melody
+                        startBGM();
                     }, 100);
                 }, 700);
 
             } else {
-                // Incorrect Pin Logic
                 playChimeSound(200, 'sawtooth', 0.2);
                 pinContainer.classList.add('animate-shake');
-                lockMsg.innerText = "รหัสผ่านไม่ถูกต้อง... ลองใหม่อีกทีนะคนดี ❤️️";
+                lockMsg.innerText = "รหัสผ่านไม่ถูกต้อง... ลองใหม่อีกทีนะคนดี ❤";
                 
                 setTimeout(() => {
                     pinContainer.classList.remove('animate-shake');
@@ -564,16 +510,13 @@
             const btnYes = document.getElementById('btnYes');
             noCount++;
 
-            // Move button randomly
             const x = (Math.random() - 0.5) * 260;
             const y = (Math.random() - 0.5) * 160;
             btnNo.style.transform = `translate(${x}px, ${y}px)`;
 
-            // Make YES button progressively larger & happier
             const scale = 1 + (noCount * 0.15);
             btnYes.style.transform = `scale(${scale})`;
 
-            // Change No button text playfully
             const playfulTexts = [
                 "ยังงอนอยู่ 🥺",
                 "น้าาา... หายงอนเหอะนะ 🥺",
@@ -588,7 +531,6 @@
         }
 
         function handleForgiveYes() {
-            // Trigger Confetti explosion
             confetti({
                 particleCount: 120,
                 spread: 80,
@@ -610,7 +552,6 @@
                 });
             }, 250);
 
-            // Show success modal
             const modal = document.getElementById('successModal');
             modal.classList.remove('opacity-0', 'pointer-events-none');
             modal.children[0].classList.remove('scale-90');
@@ -629,7 +570,7 @@
             const aiBox = document.getElementById('aiMessageBox');
             aiBox.innerHTML = `<span class="animate-pulse">✨ AI กำลังเขียนข้อความซึ้งๆ ให้เธอ...</span>`;
 
-            const apiKey = ""; // Runtime injects API Key if available
+            const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
             const systemPrompt = "คุณคือผู้ช่วยเขียนข้อความอ้อนแฟน ขอโทษ และแสดงความรักอย่างจริงใจ สดใส และซาบซึ้ง เขียนเป็นภาษาไทยความยาวประมาณ 2-3 ประโยค สั้นกระชับ อบอุ่น และใส่ Emoji น่ารักๆ";
@@ -659,7 +600,6 @@
                     throw new Error("No output");
                 }
             } catch (err) {
-                // Fallback cute message
                 aiBox.innerText = `"เค้าอาจจะไม่ได้พูดเก่งที่สุด แต่เค้าสัญญาว่าจะรักและดูแลเธอให้ดีที่สุดในทุกๆ วันนะครับ ❤️"`;
             }
         }
@@ -699,8 +639,7 @@
             isAudioPlaying = true;
             initAudioContext();
 
-            // Soft romantic piano-style chord melody loop synthesized via Web Audio API
-            const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23]; // C, E, G, C, A, F
+            const notes = [261.63, 329.63, 392.00, 523.25, 440.00, 349.23];
             let noteIdx = 0;
 
             bgmInterval = setInterval(() => {
@@ -775,7 +714,6 @@
             requestAnimationFrame(animateCanvas);
         }
         animateCanvas();
-
 
         function showToast(msg, icon = "💡") {
             const toast = document.getElementById('toast');
