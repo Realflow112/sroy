@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
@@ -127,9 +128,48 @@
     </div>
 
     <!-- ==================================================== -->
+    <!-- 0. DEVICE SELECTION OVERLAY                          -->
+    <!-- ==================================================== -->
+    <div id="deviceSelectScreen" class="fixed inset-0 z-50 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700">
+        <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
+            <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl heart-pulse">
+                📱💻
+            </div>
+            <h1 class="heading-font text-2xl font-semibold text-gray-800 mb-2">เลือกรุ่นอุปกรณ์ของคุณ</h1>
+            <p class="text-sm text-gray-500 mb-6 font-light">โปรดเลือกอุปกรณ์ที่กำลังใช้งาน เพื่อปรับการสัมผัสและปุ่มให้ดีที่สุดค่ะ/ครับ</p>
+
+            <div class="space-y-3 mb-2">
+                <button onclick="selectDevice('ios')" class="w-full bg-white hover:bg-rose-50 border-2 border-rosepink/40 text-gray-700 font-medium py-3.5 px-4 rounded-2xl shadow-sm hover:shadow-md transition flex items-center justify-between gap-3 active:scale-95 cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🍎</span>
+                        <span class="heading-font font-medium">iOS (iPhone / iPad)</span>
+                    </div>
+                    <span class="text-xs text-rosepink font-semibold">Touch Ready ➔</span>
+                </button>
+                
+                <button onclick="selectDevice('android')" class="w-full bg-white hover:bg-rose-50 border-2 border-rosepink/40 text-gray-700 font-medium py-3.5 px-4 rounded-2xl shadow-sm hover:shadow-md transition flex items-center justify-between gap-3 active:scale-95 cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">🤖</span>
+                        <span class="heading-font font-medium">Android Device</span>
+                    </div>
+                    <span class="text-xs text-rosepink font-semibold">Touch Ready ➔</span>
+                </button>
+
+                <button onclick="selectDevice('pc')" class="w-full bg-white hover:bg-rose-50 border-2 border-rosepink/40 text-gray-700 font-medium py-3.5 px-4 rounded-2xl shadow-sm hover:shadow-md transition flex items-center justify-between gap-3 active:scale-95 cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <span class="text-2xl">💻</span>
+                        <span class="heading-font font-medium">PC / Laptop</span>
+                    </div>
+                    <span class="text-xs text-rosepink font-semibold">Mouse Ready ➔</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ==================================================== -->
     <!-- 1. LOCK SCREEN OVERLAY (PIN: 070826)                 -->
     <!-- ==================================================== -->
-    <div id="lockScreen" class="fixed inset-0 z-40 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700">
+    <div id="lockScreen" class="fixed inset-0 z-40 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700 hidden opacity-0">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
             <!-- Heart Icon Header -->
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl heart-pulse">
@@ -174,7 +214,7 @@
         <!-- HEADER / HERO SECTION -->
         <header class="text-center mb-12">
             <div class="inline-block relative mb-4">
-                <img id="avatarImage" src="https://images.unsplash.com/photo-1518199266791-5375a83190b7?auto=format&fit=crop&w=500&q=80" alt="Couple" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border-4 border-white shadow-xl">
+                <img id="avatarImage" src="11156.jpg" onerror="this.src='https://placehold.co/400x400/FFB6C1/white?text=Cute+Girl'" alt="Couple" class="w-32 h-32 md:w-40 md:h-40 rounded-full object-cover mx-auto border-4 border-white shadow-xl">
                 <span class="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow text-lg">💖</span>
             </div>
             
@@ -225,29 +265,65 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
                 <!-- Polaroid 1 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-48 mb-3 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=600&q=80" alt="Memory 1" class="w-full h-full object-cover">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="11156.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+1'" alt="Memory 1" class="w-full h-full object-cover">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">วันที่เรายิ้มให้กันครั้งแรก 😊</p>
-                    <span class="text-xs text-gray-400">ภาพความทรงจำสุดอบอุ่น</span>
+                    <p class="font-handwritten text-lg text-gray-700">คนน่ารักของเค้า 💖</p>
+                    <span class="text-xs text-gray-400">มองกี่ทีก็ตกหลุมรัก</span>
                 </div>
 
                 <!-- Polaroid 2 -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-48 mb-3 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=600&q=80" alt="Memory 2" class="w-full h-full object-cover">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="10893.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+2'" alt="Memory 2" class="w-full h-full object-cover">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">ทุกๆ ทริปที่มีเธอไปด้วย 🚗</p>
-                    <span class="text-xs text-gray-400">ช่วงเวลาที่มีค่าที่สุด</span>
+                    <p class="font-handwritten text-lg text-gray-700">มุมเผลอน่ารักๆ 😊</p>
+                    <span class="text-xs text-gray-400">สดใสน่ารักที่สุดเลย</span>
                 </div>
 
                 <!-- Polaroid 3 -->
-                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center sm:col-span-2 md:col-span-1">
-                    <div class="overflow-hidden rounded-xl h-48 mb-3 bg-gray-100">
-                        <img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=600&q=80" alt="Memory 3" class="w-full h-full object-cover">
+                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="10892.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+3'" alt="Memory 3" class="w-full h-full object-cover">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">เค้าอยากจับมือเธอแบบนี้ตลอดไป 🤝</p>
-                    <span class="text-xs text-gray-400">สัญญาว่าจะดูแลให้ดีกว่าเดิม</span>
+                    <p class="font-handwritten text-lg text-gray-700">ภาพจำสุดน่ารัก 📸</p>
+                    <span class="text-xs text-gray-400">เห็นแล้วยิ้มตามทุกครั้ง</span>
+                </div>
+
+                <!-- Polaroid 4 -->
+                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="10155.png" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+4'" alt="Memory 4" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-handwritten text-lg text-gray-700">สไตล์เท่ๆ ปนน่านัก 🖤</p>
+                    <span class="text-xs text-gray-400">ชอบทุกมุมที่เป็นเธอ</span>
+                </div>
+
+                <!-- Polaroid 5 -->
+                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="9463.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+5'" alt="Memory 5" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-handwritten text-lg text-gray-700">คนเก่งกับตุ๊กตาตัวโปรด 🧸</p>
+                    <span class="text-xs text-gray-400">งับความน่ารักเกินร้อย</span>
+                </div>
+
+                <!-- Polaroid 6 -->
+                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="9237.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+6'" alt="Memory 6" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-handwritten text-lg text-gray-700">สองนิ้วส่งหัวใจ ✌️💖</p>
+                    <span class="text-xs text-gray-400">ขอกอดหน่อยได้มั้ยคะ</span>
+                </div>
+
+                <!-- Polaroid 7 -->
+                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center sm:col-span-2 md:col-span-1">
+                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-gray-100">
+                        <img src="9152.jpg" onerror="this.src='https://placehold.co/600x600/FFB6C1/white?text=Memory+7'" alt="Memory 7" class="w-full h-full object-cover">
+                    </div>
+                    <p class="font-handwritten text-lg text-gray-700">เจ้าหมูน้อยสุดคิวท์ 🐷</p>
+                    <span class="text-xs text-gray-400">สัญญาว่าจะเคียงข้างตลอดไป</span>
                 </div>
             </div>
         </section>
@@ -352,6 +428,27 @@
         let isAudioPlaying = false;
         let audioCtx = null;
         let bgmInterval = null;
+        let userDevice = 'pc';
+
+        function selectDevice(device) {
+            userDevice = device;
+            const deviceScreen = document.getElementById('deviceSelectScreen');
+            const lockScreen = document.getElementById('lockScreen');
+
+            deviceScreen.classList.add('opacity-0');
+            playChimeSound(500, 'sine', 0.15);
+
+            setTimeout(() => {
+                deviceScreen.style.display = 'none';
+                lockScreen.classList.remove('hidden');
+                setTimeout(() => {
+                    lockScreen.classList.remove('opacity-0');
+                    if (pinInputs[0]) pinInputs[0].focus();
+                }, 50);
+            }, 700);
+
+            showToast(`ตั้งค่าสำหรับ ${device.toUpperCase()} เรียบร้อยแล้ว`, "📱");
+        }
 
         // Draft Apology Letter Content
         const APOLOGY_LETTER = `ถึงคนเก่งของเค้า...
@@ -693,3 +790,4 @@
     </script>
 </body>
 </html>
+```
