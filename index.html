@@ -1,10 +1,9 @@
-```html
 <!DOCTYPE html>
 <html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Special Story | 070826</title>
+    <title>Our Anniversary | บาส ❤️ เฟย</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Canvas Confetti CDN -->
@@ -12,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600&family=Sarabun:ital,wght@0,300;0,400;0,600;1,400&family=Short+Stack&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@300;400;500;600;700&family=Sarabun:ital,wght@0,300;0,400;0,600;1,400&family=Short+Stack&display=swap" rel="stylesheet">
     
     <script>
         tailwind.config = {
@@ -23,7 +22,8 @@
                         softcream: '#FFF9F5',
                         warmbeige: '#F5EBE6',
                         deeprose: '#E86A82',
-                        accentgold: '#E5C07B'
+                        accentgold: '#E5C07B',
+                        romanticviolet: '#8A4FFF'
                     },
                     fontFamily: {
                         mitr: ['Mitr', 'sans-serif'],
@@ -58,10 +58,10 @@
         }
 
         .glass-card {
-            background: rgba(255, 255, 255, 0.88);
+            background: rgba(255, 255, 255, 0.90);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(255, 182, 193, 0.35);
+            border: 1px solid rgba(255, 182, 193, 0.4);
             box-shadow: 0 10px 30px rgba(232, 106, 130, 0.08);
         }
 
@@ -100,16 +100,21 @@
             box-shadow: 0 15px 35px rgba(232, 106, 130, 0.18);
         }
 
-        #btnNo {
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
+        .flower-lock-blur {
+            filter: blur(12px) brightness(0.8);
+            transition: filter 0.8s ease-in-out;
+        }
+        .flower-unlocked {
+            filter: blur(0px) brightness(1);
         }
     </style>
 </head>
 <body class="relative min-h-screen flex flex-col justify-between selection:bg-rosepink selection:text-white">
 
+    <!-- Background Animation Canvas -->
     <canvas id="bgCanvas"></canvas>
 
+    <!-- Music BGM Toggle -->
     <div class="fixed top-4 right-4 z-50 flex items-center gap-2">
         <button id="bgmToggle" onclick="toggleBGM()" class="glass-card p-3 rounded-full text-deeprose hover:scale-105 active:scale-95 transition flex items-center justify-center shadow-md cursor-pointer" title="เปิด/ปิดเพลงบรรเลง">
             <svg id="musicIcon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -118,13 +123,15 @@
         </button>
     </div>
 
+    <!-- Step 1: Device Select Screen -->
     <div id="deviceSelectScreen" class="fixed inset-0 z-50 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl heart-pulse">
                 📱💻
             </div>
-            <h1 class="heading-font text-2xl font-semibold text-gray-800 mb-2">เลือกรุ่นอุปกรณ์ของคุณ</h1>
-            <p class="text-sm text-gray-500 mb-6 font-light">โปรดเลือกอุปกรณ์ที่กำลังใช้งาน เพื่อปรับการสัมผัสและปุ่มให้ดีที่สุดค่ะ/ครับ</p>
+            <h1 class="heading-font text-2xl font-bold text-gray-800 mb-1">บาส ❤️ เฟย</h1>
+            <p class="text-xs text-deeprose font-semibold mb-3">Love Memory Space</p>
+            <p class="text-sm text-gray-500 mb-6 font-light">เลือกรุ่นอุปกรณ์ของคุณเพื่อสัมผัสประสบการณ์ที่ดีที่สุดค่ะ/ครับ</p>
 
             <div class="space-y-3 mb-2">
                 <button onclick="selectDevice('ios')" class="w-full bg-white hover:bg-rose-50 border-2 border-rosepink/40 text-gray-700 font-medium py-3.5 px-4 rounded-2xl shadow-sm hover:shadow-md transition flex items-center justify-between gap-3 active:scale-95 cursor-pointer">
@@ -154,14 +161,16 @@
         </div>
     </div>
 
+    <!-- Step 2: Lock Screen -->
     <div id="lockScreen" class="fixed inset-0 z-40 bg-softcream flex flex-col items-center justify-center p-4 transition-opacity duration-700 hidden opacity-0">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center shadow-2xl relative border border-rosepink/40">
             <div class="w-20 h-20 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl heart-pulse">
                 🔒❤️
             </div>
             
-            <h1 class="heading-font text-2xl font-semibold text-gray-800 mb-2">Secret Memory Vault</h1>
-            <p class="text-sm text-gray-500 mb-6 font-light">กรอกวันสำคัญของเราเพื่อปลดล็อกหัวใจ (DDMMYY)</p>
+            <h1 class="heading-font text-2xl font-semibold text-gray-800 mb-1">Secret Memory Vault</h1>
+            <p class="text-xs text-deeprose font-semibold mb-4">บาส ❤️ เฟย</p>
+            <p class="text-sm text-gray-500 mb-6 font-light">กรอกวันครบรอบของเราเพื่อเข้าสู่พื้นที่หัวใจ (DDMMYY)</p>
 
             <div id="pinContainer" class="flex justify-center gap-2 mb-6">
                 <input type="password" maxlength="1" class="pin-box w-11 h-13 text-center text-xl font-bold bg-white border-2 border-rosepink/50 rounded-xl" inputmode="numeric">
@@ -175,7 +184,7 @@
             <div id="lockMessage" class="min-h-[28px] text-xs font-medium text-deeprose mb-4 transition-all duration-300"></div>
 
             <button onclick="checkPasscode()" class="w-full bg-deeprose hover:bg-rose-600 text-white font-medium py-3 rounded-2xl shadow-lg hover:shadow-rosepink/50 transition duration-300 heading-font active:scale-95 cursor-pointer">
-                ปลดล็อกข้อความลับ ✨
+                เข้าสู่สมุดความทรงจำ ✨
             </button>
 
             <button onclick="showHint()" class="mt-4 text-xs text-gray-400 hover:text-deeprose underline transition cursor-pointer">
@@ -184,281 +193,268 @@
         </div>
     </div>
 
-    <main id="mainContent" class="relative z-10 max-w-4xl mx-auto px-4 py-12 hidden opacity-0 transition-opacity duration-1000">
+    <!-- Step 3: Main App Content -->
+    <main id="mainContent" class="relative z-10 max-w-4xl mx-auto px-4 py-10 hidden opacity-0 transition-opacity duration-1000">
         
-        <header class="text-center mb-12">
-            <div class="inline-block relative mb-4">
-                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full mx-auto border-4 border-white shadow-xl overflow-hidden bg-rose-100 flex items-center justify-center">
-                    <!-- Cute Pig Avatar SVG -->
-                    <svg class="w-full h-full p-2" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="50" cy="50" r="45" fill="#FFC0CB"/>
-                        <!-- Ears -->
-                        <path d="M20 25 Q 10 10 28 18 Z" fill="#FF99B2"/>
-                        <path d="M80 25 Q 90 10 72 18 Z" fill="#FF99B2"/>
-                        <!-- Eyes -->
-                        <circle cx="35" cy="42" r="5" fill="#333"/>
-                        <circle cx="65" cy="42" r="5" fill="#333"/>
-                        <circle cx="37" cy="40" r="1.5" fill="#FFF"/>
-                        <circle cx="67" cy="40" r="1.5" fill="#FFF"/>
-                        <!-- Cheeks -->
-                        <circle cx="25" cy="52" r="6" fill="#FF7799" opacity="0.6"/>
-                        <circle cx="75" cy="52" r="6" fill="#FF7799" opacity="0.6"/>
-                        <!-- Snout -->
-                        <rect x="38" y="48" width="24" height="18" rx="9" fill="#FF88A5"/>
-                        <circle cx="44" cy="57" r="2.5" fill="#CC4466"/>
-                        <circle cx="56" cy="57" r="2.5" fill="#CC4466"/>
-                        <!-- Smile -->
-                        <path d="M 44 72 Q 50 78 56 72" stroke="#CC4466" stroke-width="2.5" stroke-linecap="round" fill="none"/>
-                        <!-- Cute Bow -->
-                        <path d="M 62 18 Q 70 12 72 22 Q 65 24 62 18 Z" fill="#E86A82"/>
-                        <path d="M 62 18 Q 54 12 52 22 Q 59 24 62 18 Z" fill="#E86A82"/>
-                        <circle cx="62" cy="18" r="3" fill="#FFF"/>
-                    </svg>
+        <!-- Header Profile for Bas & Fey -->
+        <header class="text-center mb-10">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <!-- Bas Profile -->
+                <div class="text-center">
+                    <div class="relative w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white shadow-lg overflow-hidden bg-rose-100 mx-auto">
+                        <img id="basImgPreview" src="101518.jpg" onerror="this.src='https://placehold.co/200x200/FFB6C1/white?text=Bas'" class="w-full h-full object-cover" alt="บาส">
+                    </div>
+                    <span class="heading-font text-sm md:text-base font-bold text-gray-700 mt-1 block">บาส 👦🏻</span>
                 </div>
-                <span class="absolute bottom-1 right-1 bg-white p-2 rounded-full shadow text-lg">🐷</span>
+
+                <div class="text-3xl md:text-4xl text-deeprose heart-pulse">💖</div>
+
+                <!-- Fey Profile -->
+                <div class="text-center">
+                    <div class="relative w-24 h-24 md:w-28 md:h-28 rounded-full border-4 border-white shadow-lg overflow-hidden bg-rose-100 mx-auto">
+                        <img id="feyImgPreview" src="S__6717443.jpg" onerror="this.src='https://placehold.co/200x200/FFB6C1/white?text=Fey'" class="w-full h-full object-cover" alt="เฟย">
+                    </div>
+                    <span class="heading-font text-sm md:text-base font-bold text-gray-700 mt-1 block">เฟย 👧🏻</span>
+                </div>
             </div>
             
-            <h1 class="heading-font text-3xl md:text-4xl font-bold text-gray-800 mb-2">
-                ถึง... เจ้าหมูน้อยสุดที่รักของเค้า 🐷💖
+            <h1 class="heading-font text-3xl md:text-4xl font-extrabold text-gray-800 mb-2">
+                บันทึกความรัก บาส ❤️ เฟย
             </h1>
-            <p class="text-gray-500 text-sm md:text-base font-light">
-                รหัสผ่าน <span class="font-semibold text-deeprose">070826</span> ยืนยันว่าเรื่องราวของเจ้าหมูกับเค้าน่ารักแค่ไหน
+            <p class="text-gray-500 text-sm md:text-base font-light mb-3">
+                นับถอยหลังช่วงเวลาดีๆ และนับทุกวินาทีที่เรามีกันตามเวลาประเทศไทย (ICT GMT+7)
             </p>
-            
-            <div class="mt-4 inline-flex items-center gap-2 bg-rosepink/20 px-4 py-1.5 rounded-full text-xs md:text-sm text-deeprose font-medium">
-                <span>🗓 วันสำคัญของเจ้าหมู: 07 สิงหาคม 2026</span>
+
+            <div class="inline-flex items-center gap-2 bg-rose-100/90 text-deeprose px-4 py-2 rounded-full text-xs md:text-sm font-semibold border border-rosepink/40 shadow-sm">
+                <span>🗓 เริ่มคบกันเมื่อ: <span id="startDateDisplay">7 สิงหาคม 2026</span></span>
+                <button onclick="promptChangeStartDate()" class="ml-2 underline text-xs text-rose-700 hover:text-rose-900 cursor-pointer">⚙️ แก้ไขวัน</button>
             </div>
         </header>
 
+        <!-- SPECIAL SECTION 1: Countdown to 2-Month Anniversary & Flower Bouquet Unlock -->
+        <section id="flowerCountdownSection" class="glass-card rounded-3xl p-6 md:p-8 mb-10 border-2 border-deeprose/40 relative overflow-hidden shadow-xl">
+            <div class="flex items-center justify-between mb-4 pb-2 border-b border-rosepink/30">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">⏳🌸</span>
+                    <h2 class="heading-font text-xl md:text-2xl font-bold text-gray-800">นับถอยหลังปลดล็อกรูปดอกไม้ครบรอบ 2 เดือน</h2>
+                </div>
+                <span id="flowerBadgeStatus" class="bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold">🔒 รอครบ 2 เดือน</span>
+            </div>
+
+            <!-- Countdown Timer Grid for 2 Months -->
+            <div id="countdown2MBox" class="bg-gradient-to-r from-rose-50 to-pink-50 p-5 rounded-2xl mb-6 border border-rosepink/40 text-center">
+                <div class="text-xs text-deeprose font-semibold uppercase mb-2">⏱ เหลือเวลาอีกเพียง</div>
+                <div class="grid grid-cols-4 gap-2 max-w-md mx-auto mb-3">
+                    <div class="bg-white p-2.5 rounded-xl border border-rosepink/30 shadow-sm">
+                        <div id="cdDays" class="heading-font text-2xl md:text-3xl font-bold text-deeprose">00</div>
+                        <div class="text-[10px] text-gray-500 font-medium">วัน</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rosepink/30 shadow-sm">
+                        <div id="cdHours" class="heading-font text-2xl md:text-3xl font-bold text-deeprose">00</div>
+                        <div class="text-[10px] text-gray-500 font-medium">ชั่วโมง</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rosepink/30 shadow-sm">
+                        <div id="cdMinutes" class="heading-font text-2xl md:text-3xl font-bold text-deeprose">00</div>
+                        <div class="text-[10px] text-gray-500 font-medium">นาที</div>
+                    </div>
+                    <div class="bg-white p-2.5 rounded-xl border border-rosepink/30 shadow-sm">
+                        <div id="cdSeconds" class="heading-font text-2xl md:text-3xl font-bold text-deeprose">00</div>
+                        <div class="text-[10px] text-gray-500 font-medium">วินาที</div>
+                    </div>
+                </div>
+                <p id="target2MDateText" class="text-xs text-gray-500">วันครบรอบ 2 เดือนตรงกับวันที่: 7 ตุลาคม 2026</p>
+            </div>
+
+            <!-- Flower Image Reveal Box -->
+            <div class="relative bg-white/90 p-4 rounded-2xl border border-rosepink/40 text-center overflow-hidden">
+                <div id="flowerBlurOverlay" class="absolute inset-0 bg-black/40 backdrop-blur-md z-10 flex flex-col items-center justify-center p-6 text-white text-center transition-all duration-700">
+                    <div class="text-4xl mb-2">🎁🌸</div>
+                    <h3 class="heading-font text-xl font-bold mb-1">ช่อดอกไม้ฉลองครบรอบ 2 เดือน</h3>
+                    <p class="text-xs text-rose-100 max-w-xs mb-4">รูปช่อดอกไม้พิเศษสุดน่ารัก 2M จะปลดล็อกทันทีเมื่อถึงวันครบรอบ 2 เดือนของ บาส & เฟย น้า!</p>
+                    <button onclick="togglePreviewUnlock()" class="bg-white text-deeprose hover:bg-rose-100 px-4 py-2 rounded-xl text-xs font-bold transition shadow-md cursor-pointer active:scale-95">
+                        👁️ กดเพื่อลองดูตัวอย่าง (Simulation Preview)
+                    </button>
+                </div>
+
+                <div class="max-w-md mx-auto">
+                    <img id="flowerImage" src="04797589-0B6B-48CB-A3F4-655C08C146A0.jpg" onerror="this.src='https://placehold.co/500x500/FFB6C1/white?text=2M+Anniversary+Flower'" class="w-full h-auto max-h-[420px] object-cover rounded-xl shadow-md mx-auto flower-lock-blur" alt="ช่อดอกไม้ครบรอบ 2 เดือน">
+                </div>
+
+                <div id="flowerUnlockedText" class="hidden mt-4 bg-rose-50 p-3 rounded-xl border border-rosepink/40">
+                    <span class="heading-font text-lg font-bold text-deeprose">🎉 Happy 2nd Month Anniversary! 🎉</span>
+                    <p class="text-xs text-gray-600 mt-1">"happy 2nd anniversary นะค้าบ ขอบคุณที่เป็นยิ้มให้กันในทุกๆ วันนะ" ❤️</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Realtime Counter Section -->
+        <section class="glass-card rounded-3xl p-6 md:p-10 mb-10 text-center relative overflow-hidden border-2 border-rosepink/40 shadow-xl">
+            <div class="text-xs font-semibold text-deeprose uppercase tracking-wider mb-2">⏱ Real-Time Relationship Counter</div>
+            
+            <!-- Main Days Count -->
+            <div class="mb-6">
+                <span id="counterTotalDays" class="heading-font text-5xl md:text-7xl font-extrabold text-deeprose drop-shadow-sm">0</span>
+                <span class="heading-font text-2xl md:text-3xl font-bold text-gray-700 ml-2" id="counterDaysUnitLabel">วันแล้วนะ! 🎉</span>
+            </div>
+
+            <!-- Detailed Breakdown Ticker -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-2xl mx-auto mb-6">
+                <div class="bg-white/90 p-3 md:p-4 rounded-2xl border border-rosepink/30 shadow-sm">
+                    <div id="counterYears" class="heading-font text-2xl md:text-3xl font-bold text-gray-800">0</div>
+                    <div class="text-xs text-gray-500 font-medium mt-1">ปี (Years)</div>
+                </div>
+                <div class="bg-white/90 p-3 md:p-4 rounded-2xl border border-rosepink/30 shadow-sm">
+                    <div id="counterMonths" class="heading-font text-2xl md:text-3xl font-bold text-gray-800">0</div>
+                    <div class="text-xs text-gray-500 font-medium mt-1">เดือน (Months)</div>
+                </div>
+                <div class="bg-white/90 p-3 md:p-4 rounded-2xl border border-rosepink/30 shadow-sm">
+                    <div id="counterDays" class="heading-font text-2xl md:text-3xl font-bold text-gray-800">0</div>
+                    <div class="text-xs text-gray-500 font-medium mt-1">วัน (Days)</div>
+                </div>
+                <div class="bg-white/90 p-3 md:p-4 rounded-2xl border border-rosepink/30 shadow-sm">
+                    <div class="heading-font text-2xl md:text-3xl font-bold text-deeprose flex items-center justify-center gap-0.5">
+                        <span id="counterHours">00</span>:<span id="counterMinutes">00</span>:<span id="counterSeconds">00</span>
+                    </div>
+                    <div class="text-xs text-gray-500 font-medium mt-1">ชั่วโมง : นาที : วินาที</div>
+                </div>
+            </div>
+
+            <div class="text-xs text-gray-400 font-light flex items-center justify-center gap-1">
+                <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                <span>เวลาประเทศไทยแบบเรียลไทม์ (Bangkok, Thailand Time Zone)</span>
+            </div>
+        </section>
+
+        <!-- Milestones Section -->
+        <section class="glass-card rounded-3xl p-6 md:p-8 mb-10 border border-rosepink/30">
+            <div class="flex items-center justify-between mb-6 pb-3 border-b border-rosepink/20">
+                <div class="flex items-center gap-2">
+                    <span class="text-2xl">🚩</span>
+                    <h2 class="heading-font text-xl md:text-2xl font-bold text-gray-800">หมุดหมายความทรงจำของ บาส & เฟย</h2>
+                </div>
+                <span class="text-xs text-gray-400">Milestone Tracker</span>
+            </div>
+
+            <!-- Next Milestone Highlight Box -->
+            <div id="nextMilestoneBox" class="bg-gradient-to-r from-rose-100/90 to-pink-100/90 p-4 md:p-5 rounded-2xl mb-6 border border-rosepink/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-center sm:text-left">
+                    <div class="text-xs font-semibold text-deeprose uppercase">🎯 หมุดหมายถัดไปของเรา</div>
+                    <div id="nextMilestoneName" class="heading-font text-lg md:text-xl font-bold text-gray-800">กำลังคำนวณ...</div>
+                    <div id="nextMilestoneDate" class="text-xs text-gray-600">...</div>
+                </div>
+                <div class="text-center sm:text-right bg-white/80 px-4 py-2 rounded-xl shadow-sm border border-rosepink/30">
+                    <div id="nextMilestoneCountdown" class="heading-font text-xl md:text-2xl font-bold text-deeprose">-- วัน</div>
+                    <div class="text-xs text-gray-500">นับถอยหลังอีก</div>
+                </div>
+            </div>
+
+            <!-- Milestones List Grid -->
+            <div id="milestonesList" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+            </div>
+        </section>
+
+        <!-- Heart Letter Section -->
         <section class="glass-card rounded-3xl p-6 md:p-10 mb-12 relative overflow-hidden border-t-4 border-deeprose">
             <div class="flex items-center justify-between mb-6 border-b border-gray-100 pb-4">
                 <div class="flex items-center gap-2">
                     <span class="text-2xl">📜</span>
-                    <h2 class="heading-font text-xl md:text-2xl font-bold text-gray-800">ความในใจจากเค้าถึงเจ้าหมู</h2>
+                    <h2 class="heading-font text-xl md:text-2xl font-bold text-gray-800">ข้อความจากหัวใจของบาส ถึง เฟย</h2>
                 </div>
                 <button onclick="replayTypewriter()" class="text-xs text-deeprose hover:bg-rose-100 px-3 py-1.5 rounded-xl transition flex items-center gap-1 cursor-pointer">
                     🔄 อ่านใหม่อีกครั้ง
                 </button>
             </div>
 
-            <div id="letterText" class="text-gray-700 leading-relaxed text-base md:text-lg whitespace-pre-line min-h-[220px]"></div>
+            <div id="letterText" class="text-gray-700 leading-relaxed text-base md:text-lg whitespace-pre-line min-h-[180px]"></div>
 
             <div class="mt-6 pt-4 border-t border-gray-100 text-right">
-                <span class="font-handwritten text-xl text-deeprose font-semibold">ด้วยรักและขอโทษเจ้าหมูจากหัวใจ ❤</span>
+                <span class="font-handwritten text-xl text-deeprose font-semibold">รักเฟยมากๆ นะครับ ❤ - บาส</span>
             </div>
         </section>
 
+        <!-- Gallery Section -->
         <section class="mb-12">
             <div class="text-center mb-8">
                 <h2 class="heading-font text-2xl md:text-3xl font-bold text-gray-800 mb-2">
-                    🐷 คอลเลกชันเจ้าหมูอ้วนสีชมพูสุดน่ารัก
+                    📸 คอลเลกชันความทรงจำ บาส & เฟย
                 </h2>
-                <p class="text-gray-500 text-sm">รอยยิ้มและพุงนุ่มๆ ของเจ้าหมูคือความสุขที่สุดของเค้าเสมอ 💖</p>
+                <p class="text-gray-500 text-sm">รูปถ่ายและความรู้สึกดีๆ ในทุกๆ วันที่เรามีกันและกัน 💖</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-                <!-- Polaroid 1 -->
+                <!-- Polaroid 1: Fey -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="50" r="40" fill="#FFB6C1"/>
-                            <path d="M22 25 Q 12 10 28 18 Z" fill="#FF88A5"/>
-                            <path d="M78 25 Q 88 10 72 18 Z" fill="#FF88A5"/>
-                            <circle cx="36" cy="45" r="4" fill="#333"/>
-                            <circle cx="64" cy="45" r="4" fill="#333"/>
-                            <circle cx="28" cy="55" r="5" fill="#FF6688" opacity="0.5"/>
-                            <circle cx="72" cy="55" r="5" fill="#FF6688" opacity="0.5"/>
-                            <rect x="40" y="50" width="20" height="15" rx="7.5" fill="#FF7799"/>
-                            <circle cx="45" cy="57.5" r="2" fill="#992244"/>
-                            <circle cx="55" cy="57.5" r="2" fill="#992244"/>
-                            <!-- Crown -->
-                            <path d="M 38 18 L 43 28 L 50 20 L 57 28 L 62 18 L 60 30 L 40 30 Z" fill="#FFD700"/>
-                        </svg>
+                    <div class="overflow-hidden rounded-xl h-64 mb-3 bg-rose-100 flex items-center justify-center">
+                        <img src="S__6717443.jpg" onerror="this.src='https://placehold.co/400x500/FFB6C1/white?text=Fey'" class="w-full h-full object-cover" alt="เฟย">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">เจ้าหมูอ้วนตัวจิ๋ว 🐷✨</p>
-                    <span class="text-xs text-gray-400">น่ารักจนหัวใจเค้าละลายหมดแล้ว~</span>
+                    <p class="font-handwritten text-lg text-gray-700">เจ้าเฟยสุดน่ารัก 👧🏻✨</p>
+                    <span class="text-xs text-gray-400">น่ารักจนบาสตกหลุมรักซ้ำๆ ทุกวัน</span>
                 </div>
 
-                <!-- Polaroid 2 -->
+                <!-- Polaroid 2: Flower Bouquet 2M -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="48" r="38" fill="#FFB6C1"/>
-                            <path d="M22 22 Q 12 8 28 16 Z" fill="#FF88A5"/>
-                            <path d="M78 22 Q 88 8 72 16 Z" fill="#FF88A5"/>
-                            <!-- Happy Closed Eyes -->
-                            <path d="M 30 42 Q 36 36 42 42" stroke="#333" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            <path d="M 58 42 Q 64 36 70 42" stroke="#333" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            <rect x="40" y="46" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="53" r="2" fill="#992244"/>
-                            <circle cx="55" cy="53" r="2" fill="#992244"/>
-                            <!-- Big Pink Heart held -->
-                            <path d="M 50 68 C 50 68 32 52 32 42 C 32 36 38 32 43 36 C 47 40 50 44 50 44 C 50 44 53 40 57 36 C 62 32 68 36 68 42 C 68 52 50 68 50 68 Z" fill="#E86A82"/>
-                        </svg>
+                    <div class="overflow-hidden rounded-xl h-64 mb-3 bg-rose-100 flex items-center justify-center">
+                        <img src="04797589-0B6B-48CB-A3F4-655C08C146A0.jpg" onerror="this.src='https://placehold.co/400x500/FFB6C1/white?text=2M+Bouquet'" class="w-full h-full object-cover" alt="ช่อดอกไม้">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">หมูอ้อนขอกอดหน่อยน้า 🐽💕</p>
-                    <span class="text-xs text-gray-400">ตาน่ารักๆ แบบนี้ยอมเจ้าหมูทุกอย่างเลย</span>
+                    <p class="font-handwritten text-lg text-gray-700">ดอกไม้ครบรอบ 2 เดือน 🌸</p>
+                    <span class="text-xs text-gray-400">แทนความรักและคำขอบคุณจากบาสนะ</span>
                 </div>
 
-                <!-- Polaroid 3 -->
+                <!-- Polaroid 3: Bas -->
                 <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="50" r="40" fill="#FFB6C1"/>
-                            <path d="M22 25 Q 12 10 28 18 Z" fill="#FF88A5"/>
-                            <path d="M78 25 Q 88 10 72 18 Z" fill="#FF88A5"/>
-                            <circle cx="36" cy="45" r="4" fill="#333"/>
-                            <circle cx="64" cy="45" r="4" fill="#333"/>
-                            <rect x="40" y="48" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="55" r="2" fill="#992244"/>
-                            <circle cx="55" cy="55" r="2" fill="#992244"/>
-                            <!-- Donut in mouth -->
-                            <circle cx="50" cy="72" r="14" fill="#D2B48C"/>
-                            <circle cx="50" cy="72" r="10" fill="#FF69B4"/>
-                            <circle cx="50" cy="72" r="4" fill="#FFF"/>
-                        </svg>
+                    <div class="overflow-hidden rounded-xl h-64 mb-3 bg-rose-100 flex items-center justify-center">
+                        <img src="101518.jpg" onerror="this.src='https://placehold.co/400x500/FFB6C1/white?text=Bas'" class="w-full h-full object-cover" alt="บาส">
                     </div>
-                    <p class="font-handwritten text-lg text-gray-700">เจ้าหมูพุงกางกินเค้ก 🍩🐷</p>
-                    <span class="text-xs text-gray-400">เห็นเวลากินแล้วเอ็นดูที่สุดในโลก</span>
-                </div>
-
-                <!-- Polaroid 4 -->
-                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="50" r="40" fill="#FFB6C1"/>
-                            <path d="M22 25 Q 12 10 28 18 Z" fill="#FF88A5"/>
-                            <path d="M78 25 Q 88 10 72 18 Z" fill="#FF88A5"/>
-                            <!-- Wink eye -->
-                            <path d="M 30 45 L 42 45" stroke="#333" stroke-width="3" stroke-linecap="round"/>
-                            <circle cx="64" cy="45" r="4" fill="#333"/>
-                            <circle cx="28" cy="54" r="6" fill="#FF5577" opacity="0.6"/>
-                            <circle cx="72" cy="54" r="6" fill="#FF5577" opacity="0.6"/>
-                            <rect x="40" y="48" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="55" r="2" fill="#992244"/>
-                            <circle cx="55" cy="55" r="2" fill="#992244"/>
-                            <!-- Flower on ear -->
-                            <circle cx="28" cy="22" r="5" fill="#FFF"/>
-                            <circle cx="23" cy="22" r="4" fill="#FFF"/>
-                            <circle cx="33" cy="22" r="4" fill="#FFF"/>
-                            <circle cx="28" cy="17" r="4" fill="#FFF"/>
-                            <circle cx="28" cy="27" r="4" fill="#FFF"/>
-                            <circle cx="28" cy="22" r="3" fill="#FFD700"/>
-                        </svg>
-                    </div>
-                    <p class="font-handwritten text-lg text-gray-700">เจ้าหมูยิ้มหวานติดดอกไม้ 🌸🐷</p>
-                    <span class="text-xs text-gray-400">เติมความสดใสให้เค้าทุกวันเลย</span>
-                </div>
-
-                <!-- Polaroid 5 -->
-                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="52" r="40" fill="#FFB6C1"/>
-                            <path d="M22 27 Q 12 12 28 20 Z" fill="#FF88A5"/>
-                            <path d="M78 27 Q 88 12 72 20 Z" fill="#FF88A5"/>
-                            <!-- Sleeping eyes -->
-                            <path d="M 30 48 Q 36 54 42 48" stroke="#333" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            <path d="M 58 48 Q 64 54 70 48" stroke="#333" stroke-width="3" stroke-linecap="round" fill="none"/>
-                            <rect x="40" y="52" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="59" r="2" fill="#992244"/>
-                            <circle cx="55" cy="59" r="2" fill="#992244"/>
-                            <!-- Zzz text -->
-                            <text x="68" y="28" font-family="Mitr" font-size="14" font-weight="bold" fill="#E86A82">Z</text>
-                            <text x="78" y="20" font-family="Mitr" font-size="11" font-weight="bold" fill="#E86A82">z</text>
-                        </svg>
-                    </div>
-                    <p class="font-handwritten text-lg text-gray-700">หมูอ้วนง่วงนอนซุกหมอน 🐷💤</p>
-                    <span class="text-xs text-gray-400">น่ารักจนอยากอุ้มกลับบ้านเลยค่ะ</span>
-                </div>
-
-                <!-- Polaroid 6 -->
-                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="50" r="40" fill="#FFB6C1"/>
-                            <path d="M22 25 Q 12 10 28 18 Z" fill="#FF88A5"/>
-                            <path d="M78 25 Q 88 10 72 18 Z" fill="#FF88A5"/>
-                            <circle cx="36" cy="45" r="4" fill="#333"/>
-                            <circle cx="64" cy="45" r="4" fill="#333"/>
-                            <rect x="40" y="48" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="55" r="2" fill="#992244"/>
-                            <circle cx="55" cy="55" r="2" fill="#992244"/>
-                            <!-- Mini Heart -->
-                            <path d="M 50 32 C 50 32 44 24 44 19 C 44 16 47 14 50 17 C 53 14 56 16 56 19 C 56 24 50 32 50 32 Z" fill="#FF3366"/>
-                        </svg>
-                    </div>
-                    <p class="font-handwritten text-lg text-gray-700">หมูส่งมินิฮาร์ท 🫰🐖</p>
-                    <span class="text-xs text-gray-400">ส่งความรักยุบยิบไปให้เจ้าหมูคนเดียว</span>
-                </div>
-
-                <!-- Polaroid 7 -->
-                <div class="polaroid glass-card p-4 rounded-2xl bg-white shadow-md text-center sm:col-span-2 md:col-span-1">
-                    <div class="overflow-hidden rounded-xl h-56 mb-3 bg-rose-100 flex items-center justify-center p-4">
-                        <svg class="w-full h-full max-h-48" viewBox="0 0 100 100" fill="none">
-                            <circle cx="50" cy="50" r="40" fill="#FFB6C1"/>
-                            <path d="M22 25 Q 12 10 28 18 Z" fill="#FF88A5"/>
-                            <path d="M78 25 Q 88 10 72 18 Z" fill="#FF88A5"/>
-                            <!-- Heart eyes -->
-                            <path d="M 36 48 C 36 48 30 40 30 36 C 30 33 33 31 36 34 C 39 31 42 33 42 36 C 42 40 36 48 36 48 Z" fill="#FF3366"/>
-                            <path d="M 64 48 C 64 48 58 40 58 36 C 58 33 61 31 64 34 C 67 31 70 33 70 36 C 70 40 64 48 64 48 Z" fill="#FF3366"/>
-                            <rect x="40" y="50" width="20" height="14" rx="7" fill="#FF7799"/>
-                            <circle cx="45" cy="57" r="2" fill="#992244"/>
-                            <circle cx="55" cy="57" r="2" fill="#992244"/>
-                        </svg>
-                    </div>
-                    <p class="font-handwritten text-lg text-gray-700">เจ้าหมูสุดที่รักของเค้า 🐷👑</p>
-                    <span class="text-xs text-gray-400">รักหมูอ้วนคนนี้คนเดียวตลอดไปน้า</span>
+                    <p class="font-handwritten text-lg text-gray-700">บาสคนกวนๆ ของเฟย 👦🏻✌️</p>
+                    <span class="text-xs text-gray-400">พร้อมจะดูแลเฟยไปตลอดเลยน้า</span>
                 </div>
             </div>
         </section>
 
+        <!-- AI Generator Section -->
         <section class="glass-card rounded-3xl p-6 md:p-8 mb-12 border border-rosepink/30">
             <div class="flex items-center gap-2 mb-4">
                 <span class="text-2xl">✨</span>
-                <h2 class="heading-font text-xl font-bold text-gray-800">AI ช่วยบอกรัก & อ้อนเจ้าหมู</h2>
+                <h2 class="heading-font text-xl font-bold text-gray-800">AI ช่วยเขียนคำอวยพร & ข้อความรักถึงเฟย</h2>
             </div>
-            <p class="text-sm text-gray-500 mb-4">เลือกอารมณ์ที่อยากฟัง แล้วให้ AI ช่วยกลั่นกรองคำพูดน่ารักๆ ส่งถึงเจ้าหมู:</p>
+            <p class="text-sm text-gray-500 mb-4">เลือกหัวข้อที่อยากอ่าน แล้วให้ AI ช่วยเขียนข้อความสุดหวานบอกรักเฟย:</p>
 
             <div class="flex flex-wrap gap-2 mb-4">
-                <button onclick="generateAiMessage('อ้อนเจ้าหมูน่ารักๆ ขอยกโทษแบบสุนัขหูตก')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
-                    🐶 หมูอ้อนสุนัขหูตก
+                <button onclick="generateAiMessage('อวยพรวันครบรอบหวานๆ ให้เฟย')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
+                    🎉 อวยพรวันครบรอบ
                 </button>
-                <button onclick="generateAiMessage('ข้อความหวานๆ ซาบซึ้ง นึกถึงวันแรกที่พบเจ้าหมู')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
-                    🌹 วันแรกที่เจอเจ้าหมู
+                <button onclick="generateAiMessage('ขอบคุณเฟยที่เข้ามาทำให้บาสมีความสุขทุกวัน')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
+                    🌹 ขอบคุณที่มีกัน
                 </button>
-                <button onclick="generateAiMessage('คำมั่นสัญญาว่าจะปรับปรุงตัวดูแลเจ้าหมูให้ดีที่สุด')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
-                    🤝 คำสัญญาถึงเจ้าหมู
+                <button onclick="generateAiMessage('สัญญาว่าจะรักและดูแลเฟยให้ดีที่สุด')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
+                    🤝 คำสัญญาความรัก
                 </button>
-                <button onclick="generateAiMessage('แต่งกลอนหรือเพลงสั้นๆ อ้อนหมูอ้วนขอคืนดี')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
-                    🎵 กลอนหวานง้อเจ้าหมู
+                <button onclick="generateAiMessage('แต่งกลอนหวานๆ กวนๆ น่ารักๆ มอบให้เฟย')" class="bg-rose-100 hover:bg-rose-200 text-deeprose text-xs font-medium px-3 py-2 rounded-xl transition cursor-pointer">
+                    🎵 กลอนรักหวานๆ
                 </button>
             </div>
 
             <div id="aiMessageBox" class="bg-white/80 p-4 rounded-2xl border border-rosepink/30 text-gray-700 text-sm min-h-[80px] flex items-center justify-center text-center italic">
-                กดเลือกหัวข้อด้านบน เพื่อให้ AI สร้างข้อความอ้อนหวานๆ ให้เจ้าหมูฟังนะ...
+                กดเลือกหัวข้อด้านบน เพื่อให้ AI สร้างข้อความหวานๆ ให้เฟยฟังนะ...
             </div>
         </section>
 
+        <!-- Interactive Love Button -->
         <section class="glass-card rounded-3xl p-8 md:p-12 text-center relative overflow-hidden shadow-xl border-2 border-rosepink/50">
-            <div class="w-20 h-20 bg-rosepink/20 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl">
-                🥺
+            <div class="w-20 h-20 bg-rosepink/20 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl heart-pulse">
+                💖
             </div>
             
             <h2 class="heading-font text-2xl md:text-3xl font-bold text-gray-800 mb-3">
-                ยกโทษให้เค้าได้หรือยังคะเจ้าหมู?
+                ส่งหัวใจให้กันวันนี้
             </h2>
-            <p class="text-gray-500 text-sm mb-8">
-                เค้ารอคำตอบและโอกาสที่จะได้กลับไปดูแลเจ้าหมูอยู่นะคะ ❤️
+            <p class="text-gray-500 text-sm mb-6">
+                กดเติมความหวานให้วันครบรอบของ บาส ❤️ เฟย กันน้า!
             </p>
 
-            <div id="buttonArea" class="flex flex-col sm:flex-row items-center justify-center gap-4 min-h-[120px] relative">
-                <button id="btnYes" onclick="handleForgiveYes()" class="bg-deeprose hover:bg-rose-600 text-white font-bold text-lg px-8 py-4 rounded-2xl shadow-lg hover:shadow-rose-400/50 transition-all duration-300 heading-font cursor-pointer z-10 transform active:scale-95">
-                    ให้อภัยนะ ❤
-                </button>
-
-                <button id="btnNo" onmouseover="runAwayButton()" ontouchstart="runAwayButton()" onclick="runAwayButton()" class="bg-gray-200 hover:bg-gray-300 text-gray-600 font-medium text-base px-6 py-3 rounded-2xl transition-all duration-200 heading-font cursor-pointer z-20">
-                    ยังงอนอยู่ 🥺
+            <div id="buttonArea" class="flex flex-col sm:flex-row items-center justify-center gap-4 min-h-[100px]">
+                <button id="btnYes" onclick="handleForgiveYes()" class="bg-deeprose hover:bg-rose-600 text-white font-bold text-lg px-10 py-4 rounded-2xl shadow-lg hover:shadow-rose-400/50 transition-all duration-300 heading-font cursor-pointer z-10 transform active:scale-95 flex items-center gap-2">
+                    <span>เติมหัวใจให้เฟย</span> ❤️ (<span id="loveClickCount">0</span>)
                 </button>
             </div>
         </section>
@@ -466,24 +462,48 @@
     </main>
 
     <footer class="relative z-10 text-center py-6 text-xs text-gray-400">
-        <p>Made with All My Heart for You • Passcode: 070826</p>
+        <p>Bas ❤️ Fey • Our Memory Space • Passcode: 070826 • Thailand Standard Time (UTC+7)</p>
     </footer>
 
+    <!-- Monthly Anniversary Automatic Popup Modal -->
+    <div id="monthlyModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-500">
+        <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center bg-white shadow-2xl transform scale-90 transition-transform duration-500 border-2 border-deeprose relative overflow-hidden">
+            <div class="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-5xl animate-bounce">
+                🎉💖
+            </div>
+            <div class="text-xs font-extrabold text-deeprose uppercase tracking-widest mb-1">ANNIVERSARY CELEBRATION</div>
+            <h2 id="monthlyModalTitle" class="heading-font text-2xl md:text-3xl font-bold text-gray-800 mb-2">
+                ขอแสดงความยินดีด้วย!
+            </h2>
+            <p id="monthlyModalSub" class="heading-font text-lg text-deeprose font-semibold mb-3">
+                ครบรอบ 2 เดือนแล้วนะ บาส ❤️ เฟย
+            </p>
+            <p id="monthlyModalMessage" class="text-gray-600 text-sm mb-6 leading-relaxed">
+                ขอบคุณสำหรับทุกๆ รอยยิ้ม ความอบอุ่น และช่วงเวลาดีๆ ที่ผ่านมาด้วยกันนะครับ อยู่ฉลองครบรอบด้วยกันแบบนี้ไปทุกๆ เดือนเลยนะ!
+            </p>
+            <button onclick="closeMonthlyModal()" class="w-full bg-deeprose hover:bg-rose-600 text-white font-medium py-3 rounded-2xl shadow-md transition heading-font cursor-pointer">
+                ขอบคุณนะคนดี ❤️
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Love Modal -->
     <div id="successModal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-500">
         <div class="glass-card max-w-md w-full p-8 rounded-3xl text-center bg-white shadow-2xl transform scale-90 transition-transform duration-500 border-2 border-rosepink">
             <div class="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-4 text-5xl animate-bounce">
                 🎉💖
             </div>
-            <h2 class="heading-font text-3xl font-bold text-deeprose mb-2">ขอบคุณที่ให้อภัยนะ!</h2>
+            <h2 class="heading-font text-3xl font-bold text-deeprose mb-2">รักเฟยที่สุดในโลก!</h2>
             <p class="text-gray-600 mb-6 leading-relaxed">
-                เค้ารักเธอที่สุดในโลกเลย! สัญญาว่าจะดูแลเธอให้ดีที่สุด และจะไม่ทำให้เธอต้องเสียใจอีกแล้วครับ ❤️✨
+                ขอบคุณสำหรับทุกๆ วันที่ผ่านมาด้วยกันนะ สัญญาว่าจะตั้งใจรักและดูแลเฟยให้ดีที่สุดตลอดไปครับ ❤️✨
             </p>
             <button onclick="closeSuccessModal()" class="w-full bg-deeprose hover:bg-rose-600 text-white font-medium py-3 rounded-2xl shadow-md transition heading-font cursor-pointer">
-                กอดกันน้าาา 🤗
+                กอดกันแน่นๆ เลยนะ 🤗
             </button>
         </div>
     </div>
 
+    <!-- Notification Toast -->
     <div id="toast" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-gray-800 text-white text-xs md:text-sm px-5 py-3 rounded-full shadow-2xl opacity-0 pointer-events-none transition-all duration-300 flex items-center gap-2">
         <span id="toastIcon">💡</span>
         <span id="toastMessage">ข้อความแจ้งเตือน</span>
@@ -491,11 +511,15 @@
 
     <script>
         const CORRECT_PIN = "070826";
-        let noCount = 0;
         let isAudioPlaying = false;
         let audioCtx = null;
         let bgmInterval = null;
         let userDevice = 'pc';
+        let loveHeartsCount = 0;
+        let isFlowerUnlockedForce = false;
+
+        // Anniversary Start Date: August 7, 2026 (Thailand GMT+7)
+        let anniversaryStartDate = new Date("2026-08-07T00:00:00+07:00");
 
         function selectDevice(device) {
             userDevice = device;
@@ -517,19 +541,15 @@
             showToast(`ตั้งค่าสำหรับ ${device.toUpperCase()} เรียบร้อยแล้ว`, "📱");
         }
 
-        const APOLOGY_LETTER = `ถึงคนเก่งของเค้า...
+        const APOLOGY_LETTER = `ถึงเฟย... เจ้าของรอยยิ้มที่น่ารักที่สุดของบาส ❤️
 
-เค้าอยากใช้พื้นที่ตรงนี้บอกความรู้สึกที่บางทีเค้าอาจจะพูดได้ไม่ดีพอ หรือไม่ได้พูดมันออกไปตรงๆ
+ขอบคุณสำหรับทุกวันและทุกวินาทีที่เราเดินเคียงข้างกันมานะ รู้ไหมว่าตั้งแต่มีเฟยเข้ามาในชีวิต บาสมีความสุขและยิ้มได้กว้างขึ้นในทุกๆ วันเลย
 
-เค้ารู้นะว่าสิ่งที่เค้าทำลงไป หรือคำพูด/การกระทำของเค้าในวันนั้น มันทำให้เธอเสียใจ และรู้สึกแย่แค่ไหน... เค้าอยากขอโทษจากใจจริงเลยนะ เค้าไม่ได้ตั้งใจจะทำให้เธอต้องร้องไห้หรือรู้สึกเจ็บปวดเลยสักนิด
+บาสชอบเวลาที่เฟยยิ้ม ชอบความสดใส และชอบพุงนุ่มๆ น่าเอ็นดูของเฟยเสมอ ถึงแม้จะมีบางวันที่เราอาจจะมีเรื่องไม่เข้าใจกันบ้าง แต่ขอบคุณเฟยมากๆ ที่จับมือและคอยเข้าใจบาสเสมอ
 
-เวลาที่เราไม่ได้คุยกัน มันทำให้เค้ารู้เลยว่าชีวิตเค้าในวันที่ไม่มีเธอ มันซบเซาและเหงามากแค่ไหน ทุกความทรงจำ ทุกรอยยิ้ม และทุกช่วงเวลาที่เราเคยผ่านมาร่วมกัน มันมีค่ากับเค้ามากๆ และเค้าไม่อยากเสียมันไปเลย
+นับจากนี้ไป บาสสัญญาว่าจะคอยดูแล คอยเป็นความอบอุ่น และทำให้เฟยมีความสุขที่สุด จะตั้งใจพัฒนาตัวเองเพื่อเป็นคนที่ดีสำหรับเฟยเสมอนะครับ
 
-เค้ายอมรับผิดทุกอย่าง และสัญญาว่าจะนำบทเรียนครั้งนี้มาปรับปรุงตัวเองให้ดีขึ้น เค้าจะใส่ใจความรู้สึกของเธอให้มากขึ้น ฟังเธอให้มากขึ้น และดูแลหัวใจของเธอให้ดีกว่าเดิม
-
-ขอบคุณสำหรับความรัก ความเข้าใจ และทุกๆ อย่างที่เธอเคยให้เค้ามาตลอดนะ...
-
-ยกโทษให้เค้าสักครั้งนะคนดี ให้โอกาสเค้าได้กลับไปดูแลเธออีกครั้งนะครับ ❤️`;
+สุขสันต์วันครบรอบและขอบคุณสำหรับทุกๆ อย่างนะครับ รักเฟยที่สุดเลย! ❤️`;
 
         const pinInputs = document.querySelectorAll('.pin-box');
         
@@ -577,6 +597,8 @@
                         mainContent.classList.remove('opacity-0');
                         startTypewriter();
                         startBGM();
+                        startRealtimeCounter();
+                        checkMonthlyAnniversaryPopup();
                     }, 100);
                 }, 700);
 
@@ -595,7 +617,246 @@
 
         function showHint() {
             const lockMsg = document.getElementById('lockMessage');
-            lockMsg.innerText = "💡 คำใบ้: วันสำคัญของเราสองคน (เช่น 07 สิงหาคม 26 -> 070826)";
+            lockMsg.innerText = "💡 คำใบ้: วันเริ่มคบของเรา (07 สิงหาคม 2569 -> 070826)";
+        }
+
+        function getThailandNow() {
+            const now = new Date();
+            const utcTime = now.getTime() + (now.getTimezoneOffset() * 60000);
+            return new Date(utcTime + (3600000 * 7));
+        }
+
+        function startRealtimeCounter() {
+            updateCounterDisplay();
+            setInterval(updateCounterDisplay, 1000);
+        }
+
+        function updateCounterDisplay() {
+            const nowThai = getThailandNow();
+            const diffMs = nowThai - anniversaryStartDate;
+
+            // 1. Calculate 2-Month Anniversary Target Date (7 Oct 2026)
+            const target2M = new Date(anniversaryStartDate.getTime());
+            target2M.setMonth(target2M.getMonth() + 2);
+
+            const diff2M = target2M - nowThai;
+
+            if (diff2M <= 0 || isFlowerUnlockedForce) {
+                // Unlocked state!
+                document.getElementById('flowerBadgeStatus').className = "bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-semibold";
+                document.getElementById('flowerBadgeStatus').innerText = "🔓 ปลดล็อกรูปดอกไม้แล้ว! 🎉";
+                
+                document.getElementById('flowerBlurOverlay').classList.add('opacity-0', 'pointer-events-none');
+                document.getElementById('flowerImage').classList.remove('flower-lock-blur');
+                document.getElementById('flowerImage').classList.add('flower-unlocked');
+                document.getElementById('flowerUnlockedText').classList.remove('hidden');
+
+                document.getElementById('cdDays').innerText = "00";
+                document.getElementById('cdHours').innerText = "00";
+                document.getElementById('cdMinutes').innerText = "00";
+                document.getElementById('cdSeconds').innerText = "00";
+            } else {
+                // Locked state countdown
+                const sec2M = Math.floor(diff2M / 1000);
+                const d2M = Math.floor(sec2M / 86400);
+                const h2M = Math.floor((sec2M % 86400) / 3600);
+                const m2M = Math.floor((sec2M % 3600) / 60);
+                const s2M = sec2M % 60;
+
+                document.getElementById('cdDays').innerText = String(d2M).padStart(2, '0');
+                document.getElementById('cdHours').innerText = String(h2M).padStart(2, '0');
+                document.getElementById('cdMinutes').innerText = String(m2M).padStart(2, '0');
+                document.getElementById('cdSeconds').innerText = String(s2M).padStart(2, '0');
+            }
+
+            // 2. Realtime total elapsed counter logic
+            if (diffMs < 0) {
+                const absDiffSeconds = Math.floor(Math.abs(diffMs) / 1000);
+                const daysLeft = Math.floor(absDiffSeconds / 86400);
+                const hoursLeft = Math.floor((absDiffSeconds % 86400) / 3600);
+                const minsLeft = Math.floor((absDiffSeconds % 3600) / 60);
+                const secsLeft = absDiffSeconds % 60;
+
+                document.getElementById('counterTotalDays').innerText = daysLeft.toLocaleString();
+                document.getElementById('counterDaysUnitLabel').innerText = "วัน (นับถอยหลังสู่วันเริ่มต้น!) ⏳";
+                document.getElementById('counterYears').innerText = "0";
+                document.getElementById('counterMonths').innerText = "0";
+                document.getElementById('counterDays').innerText = daysLeft;
+
+                document.getElementById('counterHours').innerText = String(hoursLeft).padStart(2, '0');
+                document.getElementById('counterMinutes').innerText = String(minsLeft).padStart(2, '0');
+                document.getElementById('counterSeconds').innerText = String(secsLeft).padStart(2, '0');
+
+                renderMilestones(nowThai, 0);
+                return;
+            }
+
+            // Normal elapsed time calculations
+            document.getElementById('counterDaysUnitLabel').innerText = "วันแล้วนะ! 🎉";
+            const totalSeconds = Math.floor(diffMs / 1000);
+            const totalDays = Math.floor(totalSeconds / 86400);
+
+            const hours = Math.floor((totalSeconds % 86400) / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            let years = nowThai.getFullYear() - anniversaryStartDate.getFullYear();
+            let months = nowThai.getMonth() - anniversaryStartDate.getMonth();
+            let days = nowThai.getDate() - anniversaryStartDate.getDate();
+
+            if (days < 0) {
+                months--;
+                const prevMonthDate = new Date(nowThai.getFullYear(), nowThai.getMonth(), 0);
+                days += prevMonthDate.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+
+            document.getElementById('counterTotalDays').innerText = totalDays.toLocaleString();
+            document.getElementById('counterYears').innerText = Math.max(0, years);
+            document.getElementById('counterMonths').innerText = Math.max(0, months);
+            document.getElementById('counterDays').innerText = Math.max(0, days);
+
+            document.getElementById('counterHours').innerText = String(hours).padStart(2, '0');
+            document.getElementById('counterMinutes').innerText = String(minutes).padStart(2, '0');
+            document.getElementById('counterSeconds').innerText = String(seconds).padStart(2, '0');
+
+            renderMilestones(nowThai, totalDays);
+        }
+
+        function togglePreviewUnlock() {
+            isFlowerUnlockedForce = !isFlowerUnlockedForce;
+            if (isFlowerUnlockedForce) {
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.5 } });
+                playChimeSound(700, 'sine', 0.3);
+                showToast("จำลองปลดล็อกรูปดอกไม้สำเร็จ! 🌸✨", "🎉");
+            } else {
+                document.getElementById('flowerBadgeStatus').className = "bg-amber-100 text-amber-700 px-3 py-1 rounded-full text-xs font-semibold";
+                document.getElementById('flowerBadgeStatus').innerText = "🔒 รอครบ 2 เดือน";
+                document.getElementById('flowerBlurOverlay').classList.remove('opacity-0', 'pointer-events-none');
+                document.getElementById('flowerImage').classList.remove('flower-unlocked');
+                document.getElementById('flowerImage').classList.add('flower-lock-blur');
+                document.getElementById('flowerUnlockedText').classList.add('hidden');
+                showToast("กลับสู่โหมดนับถอยหลัง 🔒", "⏳");
+            }
+            updateCounterDisplay();
+        }
+
+        function checkMonthlyAnniversaryPopup() {
+            const nowThai = getThailandNow();
+            
+            // Total month difference calculation
+            let yearDiff = nowThai.getFullYear() - anniversaryStartDate.getFullYear();
+            let monthDiff = nowThai.getMonth() - anniversaryStartDate.getMonth();
+            let totalMonths = (yearDiff * 12) + monthDiff;
+
+            // Trigger popup on anniversary day of month (e.g., day 7 of every month)
+            const isAnniversaryDay = (nowThai.getDate() === anniversaryStartDate.getDate());
+
+            if (totalMonths >= 1 && isAnniversaryDay) {
+                document.getElementById('monthlyModalTitle').innerText = "🎉 ขอแสดงความยินดีด้วย!";
+                document.getElementById('monthlyModalSub').innerText = `ครบรอบ ${totalMonths} เดือนแล้วนะ บาส ❤️ เฟย`;
+                document.getElementById('monthlyModalMessage').innerText = `ยินดีด้วยกับวันครบรอบ ${totalMonths} เดือนของเราสองคนนะ! ขอบคุณเฟยที่เป็นความสุขและรอยยิ้มของบาสเสมอ อยู่เป็นรอยยิ้มให้กันแบบนี้ในทุกๆ เดือนเลยนะครับ ❤️✨`;
+
+                setTimeout(() => {
+                    openMonthlyModal();
+                }, 1000);
+            }
+        }
+
+        function openMonthlyModal() {
+            confetti({ particleCount: 150, spread: 90, origin: { y: 0.5 } });
+            playChimeSound(650, 'sine', 0.3);
+            const modal = document.getElementById('monthlyModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.children[0].classList.remove('scale-90');
+            modal.children[0].classList.add('scale-100');
+        }
+
+        function closeMonthlyModal() {
+            const modal = document.getElementById('monthlyModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            showToast("รักเฟยที่สุดในโลกเลย! ❤️", "🥰");
+        }
+
+        function promptChangeStartDate() {
+            const currentFormatted = anniversaryStartDate.toISOString().split('T')[0];
+            const newDateStr = prompt("โปรดระบุวันครบรอบใหม่ (รูปแบบ YYYY-MM-DD เช่น 2026-08-07):", currentFormatted);
+            if (newDateStr) {
+                const parsed = new Date(`${newDateStr}T00:00:00+07:00`);
+                if (!isNaN(parsed.getTime())) {
+                    anniversaryStartDate = parsed;
+                    const thaiFormatted = parsed.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' });
+                    document.getElementById('startDateDisplay').innerText = thaiFormatted;
+                    
+                    // Update 2M target text
+                    const target2M = new Date(parsed.getTime());
+                    target2M.setMonth(target2M.getMonth() + 2);
+                    document.getElementById('target2MDateText').innerText = `วันครบรอบ 2 เดือนตรงกับวันที่: ${target2M.toLocaleDateString('th-TH', { year: 'numeric', month: 'long', day: 'numeric' })}`;
+
+                    updateCounterDisplay();
+                    showToast("อัปเดตวันครบรอบเรียบร้อย ✨", "💖");
+                } else {
+                    alert("รูปแบบวันที่ไม่ถูกต้อง กรุณาลองใหม่อีกครั้งครับ");
+                }
+            }
+        }
+
+        function renderMilestones(nowThai, totalDaysTogether) {
+            const milestones = [
+                { months: 1, label: "ครบรอบ 1 เดือน ❤️" },
+                { months: 2, label: "ครบรอบ 2 เดือน (รับดอกไม้) 🌸" },
+                { months: 3, label: "ครบรอบ 3 เดือน 💖" },
+                { months: 6, label: "ครบรอบครึ่งปี (6 เดือน) ✨" },
+                { days: 365, label: "ครบรอบ 1 ปีเต็ม 🎉" },
+                { days: 730, label: "ครบรอบ 2 ปี 🌟" }
+            ];
+
+            const listContainer = document.getElementById('milestonesList');
+            if (!listContainer) return;
+
+            let nextMilestoneFound = false;
+
+            listContainer.innerHTML = milestones.map(m => {
+                let targetDate;
+                if (m.months) {
+                    targetDate = new Date(anniversaryStartDate.getTime());
+                    targetDate.setMonth(targetDate.getMonth() + m.months);
+                } else {
+                    targetDate = new Date(anniversaryStartDate.getTime() + (m.days * 86400000));
+                }
+
+                const targetFormatted = targetDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' });
+                const isPassed = nowThai >= targetDate;
+                const daysLeft = Math.ceil((targetDate - nowThai) / (1000 * 60 * 60 * 24));
+
+                if (!isPassed && !nextMilestoneFound) {
+                    nextMilestoneFound = true;
+                    document.getElementById('nextMilestoneName').innerText = m.label;
+                    document.getElementById('nextMilestoneDate').innerText = `ตรงกับวันที่ ${targetFormatted}`;
+                    document.getElementById('nextMilestoneCountdown').innerText = `${Math.max(0, daysLeft)} วัน`;
+                }
+
+                return `
+                    <div class="p-3.5 rounded-2xl border ${isPassed ? 'bg-rose-50/80 border-rosepink/50' : 'bg-white/70 border-gray-200'} flex items-center justify-between">
+                        <div>
+                            <div class="text-sm font-semibold ${isPassed ? 'text-deeprose' : 'text-gray-700'}">${m.label}</div>
+                            <div class="text-xs text-gray-400 mt-0.5">${targetFormatted}</div>
+                        </div>
+                        <span class="text-xs font-semibold px-2.5 py-1 rounded-full ${isPassed ? 'bg-rosepink text-white' : 'bg-gray-100 text-gray-500'}">
+                            ${isPassed ? '✓ ถึงแล้ว' : `อีก ${Math.max(0, daysLeft)} วัน`}
+                        </span>
+                    </div>
+                `;
+            }).join('');
+
+            if (!nextMilestoneFound) {
+                document.getElementById('nextMilestoneName').innerText = "กำลังก้าวสู่หมุดหมายต่อไป 🎯";
+                document.getElementById('nextMilestoneDate').innerText = `วันเริ่มต้น: ${anniversaryStartDate.toLocaleDateString('th-TH', { year: 'numeric', month: 'short', day: 'numeric' })}`;
+                document.getElementById('nextMilestoneCountdown').innerText = "❤️";
+            }
         }
 
         let typewriterIndex = 0;
@@ -619,79 +880,48 @@
 
         function replayTypewriter() {
             startTypewriter();
-            showToast("กำลังเล่นจดหมายใหม่อีกครั้ง...", "📜");
-        }
-
-        function runAwayButton() {
-            const btnNo = document.getElementById('btnNo');
-            const btnYes = document.getElementById('btnYes');
-            noCount++;
-
-            const x = (Math.random() - 0.5) * 260;
-            const y = (Math.random() - 0.5) * 160;
-            btnNo.style.transform = `translate(${x}px, ${y}px)`;
-
-            const scale = 1 + (noCount * 0.15);
-            btnYes.style.transform = `scale(${scale})`;
-
-            const playfulTexts = [
-                "ยังงอนอยู่ 🥺",
-                "น้าาา... หายงอนเหอะนะ 🥺",
-                "เค้าขอโทษจริงๆ นะคะ",
-                "อย่าเพิ่งใจร้ายกับเค้านะ",
-                "กดให้อภัยฝั่งซ้ายเถอะนะ ❤",
-                "น้าาาาาาาา 🙏"
-            ];
-            btnNo.innerText = playfulTexts[Math.min(noCount, playfulTexts.length - 1)];
-
-            playChimeSound(400 + (noCount * 50), 'sine', 0.1);
+            showToast("กำลังอ่านจดหมายใหม่อีกครั้ง...", "📜");
         }
 
         function handleForgiveYes() {
+            loveHeartsCount++;
+            document.getElementById('loveClickCount').innerText = loveHeartsCount;
+
             confetti({
-                particleCount: 120,
-                spread: 80,
+                particleCount: 100,
+                spread: 70,
                 origin: { y: 0.6 }
             });
 
-            setTimeout(() => {
-                confetti({
-                    particleCount: 80,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 }
-                });
-                confetti({
-                    particleCount: 80,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 }
-                });
-            }, 250);
+            playChimeSound(600 + (loveHeartsCount * 20), 'sine', 0.2);
 
-            const modal = document.getElementById('successModal');
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            modal.children[0].classList.remove('scale-90');
-            modal.children[0].classList.add('scale-100');
-
-            playChimeSound(800, 'sine', 0.3);
+            if (loveHeartsCount === 1) {
+                setTimeout(() => {
+                    const modal = document.getElementById('successModal');
+                    modal.classList.remove('opacity-0', 'pointer-events-none');
+                    modal.children[0].classList.remove('scale-90');
+                    modal.children[0].classList.add('scale-100');
+                }, 300);
+            } else {
+                showToast(`ส่งความรักให้เฟยแล้ว ${loveHeartsCount} ดวง! 💖`, "🥰");
+            }
         }
 
         function closeSuccessModal() {
             const modal = document.getElementById('successModal');
             modal.classList.add('opacity-0', 'pointer-events-none');
-            showToast("ขอบคุณที่รักกันนะเจ้าหมู ❤", "💖");
+            showToast("ขอบคุณที่รักกันนะเฟย ❤", "💖");
         }
 
         async function generateAiMessage(promptTopic) {
             const aiBox = document.getElementById('aiMessageBox');
-            aiBox.innerHTML = `<span class="animate-pulse">✨ AI กำลังเขียนข้อความซึ้งๆ ให้เธอ...</span>`;
+            aiBox.innerHTML = `<span class="animate-pulse">✨ AI กำลังเขียนข้อความรักหวานๆ ให้เฟย...</span>`;
 
             const apiKey = ""; 
             const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
 
-            const systemPrompt = "คุณคือผู้ช่วยเขียนข้อความอ้อนแฟน ขอโทษ และแสดงความรักอย่างจริงใจ สดใส และซาบซึ้ง เขียนเป็นภาษาไทยความยาวประมาณ 2-3 ประโยค สั้นกระชับ อบอุ่น และใส่ Emoji น่ารักๆ";
-            const userQuery = `ช่วยเขียนข้อความง้อแฟนหัวข้อ: ${promptTopic}`;
+            const systemPrompt = "คุณคือผู้ช่วยเขียนข้อความบอกรักวันครบรอบระหว่างบาสกับเฟย แสดงความรักอย่างจริงใจ สดใส ซาบซึ้ง และน่ารัก เขียนเป็นภาษาไทยความยาวประมาณ 2-3 ประโยค สั้นกระชับ อบอุ่น และใส่ Emoji น่ารักๆ";
+            const userQuery = `ช่วยเขียนข้อความวันครบรอบหัวข้อ: ${promptTopic}`;
 
             const payload = {
                 contents: [{ parts: [{ text: userQuery }] }],
@@ -717,7 +947,7 @@
                     throw new Error("No output");
                 }
             } catch (err) {
-                aiBox.innerText = `"เค้าอาจจะไม่ได้พูดเก่งที่สุด แต่เค้าสัญญาว่าจะรักและดูแลเธอให้ดีที่สุดในทุกๆ วันนะครับ ❤️"`;
+                aiBox.innerText = `"ขอบคุณสำหรับทุกช่วงเวลาที่ได้อยู่ด้วยกันนะเฟย บาสสัญญาว่าจะรักและดูแลเฟยให้ดีที่สุดในทุกๆ วันนะครับ ❤️"`;
             }
         }
 
@@ -845,4 +1075,3 @@
     </script>
 </body>
 </html>
-```
