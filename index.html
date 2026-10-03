@@ -546,17 +546,16 @@ body.night .cinema{
  </div>
 </section>
 
-<!-- 8) Game with levels -->
+<!-- 8) Game with 2 levels -->
 <section>
  <div class="kicker">LITTLE GAME</div>
  <h2 class="section-title">Catch the Hearts 💕</h2>
- <p class="section-sub">กดหัวใจให้ครบตามด่าน แล้วปลดล็อกห้องลับ</p>
+ <p class="section-sub">กดหัวใจให้ครบ 20 ดวงภายใน 30 วินาที แล้วปลดล็อกห้องลับ</p>
  <div class="card game">
-  <div class="score">คะแนน <b id="score">0</b> / <span id="goal">10</span></div>
+  <div class="score">คะแนน <b id="score">0</b> / <span id="goal">10</span> &nbsp;•&nbsp; ⏱️ <b id="timeLeft">30</b> วิ</div>
   <div class="levels">
    <span class="level on" id="lv1">Level 1 · 10</span>
    <span class="level" id="lv2">Level 2 · 20</span>
-   <span class="level" id="lv3">Level 3 · 30</span>
   </div>
   <div class="arena" id="arena"></div>
   <div class="game-actions">
@@ -572,7 +571,7 @@ body.night .cinema{
  <div class="card secret" id="secretRoom">
   <div class="kicker" style="color:#d4b585">SECRET ROOM</div>
   <h2 style="font-family:Itim;font-size:36px;margin:6px 0">🔒 ห้องลับของเฟย</h2>
-  <p class="lockedHint">ต้องผ่านเกมให้ครบ 10 / 20 / 30 หัวใจก่อน</p>
+  <p class="lockedHint">ต้องผ่านเกมให้ครบ 20 หัวใจ ภายใน 30 วินาทีก่อน</p>
   <div class="secretMessage">
    ✨ เปิดสำเร็จ ✨<br><br>
    “บาสไม่ได้ทำเว็บนี้เพราะอยากให้มันสวยอย่างเดียว<br>
@@ -752,17 +751,17 @@ body.night .cinema{
     io.observe($('typedLetter'));
   }else typeLetter();
 
-  /* Game: 3 levels, each level unlocks when its goal is reached. */
-  const arena=$('arena'), scoreEl=$('score'), goalEl=$('goal'), gameMsg=$('gameMsg');
-  const levels=[10,20,30];
-  let level=0,score=0,running=false,spawnTimer=null,stopTimer=null;
+  /* Game: 2 levels, total 20 hearts within 30 seconds. */
+  const arena=$('arena'), scoreEl=$('score'), goalEl=$('goal'), gameMsg=$('gameMsg'), timeLeftEl=$('timeLeft');
+  const levels=[10,20];
+  let level=0,score=0,running=false,spawnTimer=null,stopTimer=null,timeTimer=null,timeLeft=30;
   function clearGame(){arena.querySelectorAll('.gheart').forEach(e=>e.remove())}
   function currentGoal(){return levels[level]}
   function updateLevels(){
     $('lv1').classList.toggle('on',level===0);
     $('lv2').classList.toggle('on',level===1);
-    $('lv3').classList.toggle('on',level===2);
     goalEl.textContent=currentGoal();
+    timeLeftEl.textContent=timeLeft;
   }
   function spawnHeart(){
     if(!running)return;
@@ -780,36 +779,40 @@ body.night .cinema{
     setTimeout(()=>h.remove(),2200);
   }
   function startGame(){
-    clearTimeout(stopTimer);clearInterval(spawnTimer);clearGame();
-    level=0;score=0;running=true;scoreEl.textContent='0';updateLevels();
-    gameMsg.textContent='เริ่มแล้ว! หัวใจมาแล้ว 💕';
+    clearTimeout(stopTimer);clearInterval(spawnTimer);clearInterval(timeTimer);clearGame();
+    level=0;score=0;timeLeft=30;running=true;scoreEl.textContent='0';updateLevels();
+    gameMsg.textContent='เริ่มแล้ว! มีเวลา 30 วินาที รีบเก็บหัวใจเลย 💕';
     for(let i=0;i<4;i++)spawnHeart();
     spawnTimer=setInterval(spawnHeart,650);
-    stopTimer=setTimeout(endGame,20000);
+    timeTimer=setInterval(()=>{
+      if(!running)return;
+      timeLeft--;timeLeftEl.textContent=timeLeft;
+      if(timeLeft<=0)endGame();
+    },1000);
+    stopTimer=setTimeout(endGame,30000);
   }
   function levelComplete(){
     clearInterval(spawnTimer);
     if(level===0){
-      level=1;updateLevels();gameMsg.textContent='ผ่าน Level 1! ต่อด้วย 20 ดวง 💗';clearGame();
-      setTimeout(()=>{for(let i=0;i<4;i++)spawnHeart();spawnTimer=setInterval(spawnHeart,560)},450);
-    } else if(level===1){
-      level=2;updateLevels();gameMsg.textContent='ผ่าน Level 2! ด่านสุดท้าย 30 ดวง ✨';clearGame();
-      setTimeout(()=>{for(let i=0;i<5;i++)spawnHeart();spawnTimer=setInterval(spawnHeart,500)},450);
+      level=1;updateLevels();gameMsg.textContent='ผ่าน Level 1! เหลืออีก 10 ดวง 💗';clearGame();
+      setTimeout(()=>{if(!running)return;for(let i=0;i<4;i++)spawnHeart();spawnTimer=setInterval(spawnHeart,560)},450);
     } else {
-      running=false;clearInterval(spawnTimer);clearTimeout(stopTimer);clearGame();
-      gameMsg.textContent='🏆 ผ่านครบทุกด่านแล้ว — ห้องลับเปิดแล้ว!';
+      running=false;clearInterval(spawnTimer);clearInterval(timeTimer);clearTimeout(stopTimer);clearGame();
+      timeLeftEl.textContent=timeLeft;
+      gameMsg.textContent='🏆 ครบ 20 ดวงแล้ว — ห้องลับเปิดแล้ว!';
       $('secretRoom').classList.add('unlocked');
       confetti(24);
     }
   }
   function endGame(){
     if(!running)return;
-    running=false;clearInterval(spawnTimer);clearGame();
+    running=false;clearInterval(spawnTimer);clearInterval(timeTimer);clearTimeout(stopTimer);clearGame();
+    timeLeftEl.textContent='0';
     gameMsg.textContent='หมดเวลาแล้ว ลองอีกครั้งได้นะ 💗';
   }
   function resetGame(){
-    running=false;clearInterval(spawnTimer);clearTimeout(stopTimer);clearGame();
-    level=0;score=0;scoreEl.textContent='0';updateLevels();
+    running=false;clearInterval(spawnTimer);clearInterval(timeTimer);clearTimeout(stopTimer);clearGame();
+    level=0;score=0;timeLeft=30;scoreEl.textContent='0';updateLevels();
     gameMsg.textContent='กดเริ่มเกม แล้วหัวใจจะโผล่ทันที';
   }
   $('gameStart').addEventListener('click',startGame);
