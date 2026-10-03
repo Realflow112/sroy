@@ -341,9 +341,67 @@ img { max-width:100%; }
   .arena{height:230px}
 }
 
+
+/* ===== FIXED PURPLE LUXURY THEME — SAME ON EVERY DEVICE ===== */
+body.night{
+  --bg:#141320;--bg2:#211725;--ink:#f8edf1;--muted:#b9abb4;
+  --pink:#ff7898;--pink2:#ffb9c9;--gold:#d4ad72;--line:#5b4353;
+  --card:rgba(31,27,40,.90);--deep:#f8edf1;
+  background:
+    radial-gradient(circle at 14% 12%,rgba(150,85,120,.30),transparent 25%),
+    radial-gradient(circle at 88% 18%,rgba(156,108,58,.16),transparent 24%),
+    linear-gradient(135deg,#11101a,#211623 55%,#15141f);
+  color:var(--ink);
+}
+body.night:before{opacity:.20;background-image:radial-gradient(#d8a5b8 .8px,transparent .8px);background-size:34px 34px}
+body.night .date{color:#5b4b50;background:#fffaf9;border-color:#eac2cf}
+body.night .letter,
+body.night .memory,
+body.night .memory .caption,
+body.night .memory .caption p{
+  color:#3a3136;
+}
+body.night .letter{background:#fffdf8;border-color:#ead7b9}
+body.night .memory{background:#fff;border-color:#efc7d3}
+body.night .memory .caption p{color:#806f77}
+body.night .section-sub,
+body.night .center-note,
+body.night .total,
+body.night .next-note,
+body.night .hero p{color:#c6b8c0}
+body.night .section-title,
+body.night .card-title,
+body.night .hero h1,
+body.night .event h3{color:#fff5f8}
+body.night .counter-card,
+body.night .next,
+body.night .gift-card,
+body.night .game,
+body.night .secret{
+  background:rgba(30,26,39,.88);
+  border-color:#5a4251;
+}
+body.night .unit{
+  background:linear-gradient(145deg,#2b2533,#201d28);
+  border-color:#4f3b48;
+}
+body.night .unit span{color:#b8aab2}
+body.night .kicker{color:#d4ad72}
+body.night .arena{background:linear-gradient(#fff9fb,#fff);border-color:#6f5360}
+body.night .game .btn.outline{background:#fff;color:#dc5c78;border-color:#efc0cc}
+body.night .gift-locked{background:linear-gradient(145deg,#2a2430,#211d28);border-color:#5b4351}
+body.night .gift-locked p{color:#c1b4bc}
+body.night .unlockTimer .unit{background:#2a2430}
+body.night .cinema{
+  background:
+    radial-gradient(circle at 20% 20%,rgba(243,170,194,.15),transparent 26%),
+    radial-gradient(circle at 80% 25%,rgba(210,169,104,.12),transparent 22%),
+    linear-gradient(145deg,#211d2b,#0f0e15);
+}
+
 </style>
 </head>
-<body>
+<body class="night">
 
 <!-- ============================================================
      1) ซองจดหมายเปิดเว็บ
@@ -557,10 +615,7 @@ img { max-width:100%; }
   const UNLOCK = new Date('2026-10-07T00:00:00+07:00');
   const $ = id => document.getElementById(id);
 
-  /* Night theme: automatically follows the viewer's local clock. */
-  const hour = new Date().getHours();
-  if(hour >= 19 || hour < 6) document.body.classList.add('night');
-
+  /* Fixed purple theme: same on desktop, tablet, and mobile. */
   /* Envelope */
   let introOpened = false;
   function openIntro(){
